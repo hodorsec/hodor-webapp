@@ -14,6 +14,7 @@ class User(db.Model):
     last_name = db.Column(db.String(32), nullable=False)
     email = db.Column(db.String(64), unique=True, nullable=False)
     country = db.Column(db.String(64))
+    avatar_url = db.Column(db.String(256))
     '''PasswordType is an awesome function. To check for passwords later,
         you can just do user['password'] == 'plaintext' for a boolean response.'''
     password = db.Column(PasswordType(
