@@ -62,7 +62,9 @@ def get_user_by_username(user_slug):
         return make_response(jsonify(status=404, msg="No such user found in database"), 404)
 
 
-# Register a user
+#########################################
+# Register a user to database           #
+#########################################
 @app.route('/users/new', methods=['POST'])
 def add_new_user():
     """
@@ -95,7 +97,7 @@ def add_new_user():
 @app.route('/users/check', methods=['POST'])
 def check_for_existing_user():
     errors = []
-    # If the username field is passed, checl the username field.
+    # If the username field is passed, check the username field.
     if request.data.get('username'):
         check_username = str(request.data.get('username').strip())
         user_check_user = User.query.filter_by(username=check_username).first()
@@ -137,11 +139,14 @@ def handle_sql_assertion_error(err):
         The below is an attempt to clean up the message and only return the
         relevant part to API
         '''
-        errmsg = err.orig.args[0].split('\n')[1][9:]
+
+        try:
+            errmsg = err.orig.args[0].split('\n')[1][9:]
+        except IndexError:
+            errmsg = err.orig.args[0].split('\n')
     except IndexError:
-        errmsg = err.orig.args[0].split('\n')
-    except:
         errmsg = err.orig.args[0]
+        
     return make_response(jsonify(status=400, msg=errmsg), 400)
 
 
