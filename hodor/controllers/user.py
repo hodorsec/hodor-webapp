@@ -4,6 +4,7 @@ from flask import request, jsonify, abort, make_response
 from hodor.models.user import User
 from sqlalchemy.exc import IntegrityError
 
+
 def _extract_required_fields(user):
     filtered_user = dict()
     '''
@@ -17,8 +18,6 @@ def _extract_required_fields(user):
     filtered_user['verified_account'] = user.verified_account
 
     return filtered_user
-
-
 
 
 #########################################
@@ -86,8 +85,8 @@ def add_new_user():
             abort(500)
         user = User(**newuser)
         user.save()
-    return make_response(jsonify(status=201, msg="User {} successfully added" +
-                                 "to database".format(user.username)), 201)
+    return make_response(jsonify(status=201, msg="User {} successfully added".format(user.username) +
+                                 "to database"), 201)
 
 
 #################################################
@@ -141,7 +140,7 @@ def handle_sql_assertion_error(err):
         errmsg = err.orig.args[0].split('\n')[1][9:]
     except IndexError:
         errmsg = err.orig.args[0].split('\n')
-    except IndexError:
+    except:
         errmsg = err.orig.args[0]
     return make_response(jsonify(status=400, msg=errmsg), 400)
 
