@@ -146,7 +146,7 @@ def handle_sql_assertion_error(err):
             errmsg = err.orig.args[0].split('\n')
     except IndexError:
         errmsg = err.orig.args[0]
-        
+
     return make_response(jsonify(status=400, msg=errmsg), 400)
 
 

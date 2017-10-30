@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # app/__init__.py
+import os
+import sys
+import time
 from termcolor import colored
 from flask_api import FlaskAPI
 from flask_sqlalchemy import SQLAlchemy
@@ -23,14 +26,14 @@ application.config['SECRET_KEY'] = 'blehblehbleh'
 
 # Delay the application launch to get the user attention if running in
 # testing mode
-'''
-if config_name != 'production':
+
+if config_name != 'production' and not os.getenv('SKIP_COUNT'):
     for x in range(0, 5):
         sys.stdout.write(colored("\rYou are not running the server in production mode. " +
-              "App will run in {} seconds..".format(5-x), 'red'))
+                            "App will run in {} seconds..".format(5-x), 'red'))
         sys.stdout.flush()
         time.sleep(1)
-'''
+
 print(colored("\n\nRunning app in {} mode..".format(config_name), 'yellow'))
 
 # This disables the HTML API renderer for flask_api when called through
